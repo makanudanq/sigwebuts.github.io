@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <style> html, body, #map {
+            width: auto;
+            height: 680px;
+            padding: 10;
+            margin: 10;
+        }
+        </style>
+
+        <style>
+        .row.content {
+        height: 680px;
+        }
+        
+        .sidenav {
+        background-color: #fff7ad;
+        height: 100%;
+        }
+        
+        footer {
+        background-color: #fff7ad;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        }
+        
+        @media screen and (max-width: 767px) {
+        .sidenav {
+            height: auto;
+            padding: 10px;
+        }
+        .row.content {
+            height: auto;
+            background-color: #d3d3d3;
+        } 
+        }
+        </style>
+
+        <title>Peta Mata Pencaharian Kabupaten Sumbawa Barat</title>
+    </head>
+    <body>
+        <div style ="background-color: #fff7ad;">
+            <h1 style="color:rgb(0, 0, 0); Text-align:center;">
+                <b>Peta Mata Pencaharian Kabupaten Sumbawa Barat, NTB</b></h1>
+            
+
+        <div class="container-fluid">
+        <div class="row content">
+          <div class="col-sm-3 sidenav">
+            <img src="Utara.png" style="display: block; margin-left: auto; margin-right: auto;" width="100" height="100">
+            <hr>
+            <h4 style="text-align: center; padding-bottom: 3px;"><b>Informasi Peta</b>
+            <h4 style="text-align: center"> Sistem Proyeksi : UTM WGS-84
+            <br>Zona            : 50s</h4>
+            </h4>
+
+            <hr>
+            <h4 style="text-align: center; padding-bottom: 3px;"><b>Dibuat Oleh:</b></h4>
+            <h4 style="text-align: center;">Achmad Ridwan Abdullah<br>20/464409/SV/18728</h4>
+            <hr>
+            <h4 style="text-align: center; padding-bottom: 3px;"><b>Dosen Pengampu:</b></h4>
+            <h4 style="text-align: center;">Hidayat Panuntun, ST, M.Eng., D.Sc</h4>
+            <hr>
+            <img src="UGM.gif" style="display: block; margin-left: auto; margin-right: auto;" width="100" height="100">
+            <h4 style="text-align: center;"><b>Teknologi Survei dan Pemetaan Dasar<br>DTK-Sekolah Vokasi<br>Universitas Gadjah Mada<br>2022</b></h4>
+            <div class="input-group">
+            </div>
+          </div>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/leaflet-search.js"></script>
+        <script src="data/ProvinsiNTB_1.js"></script>
+        <script src="data/PenggunaanLahanKabSumbawaBarat_2.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+            highlightLayer.openPopup();
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:5
+        }).fitBounds([[-9.83135998162854,116.14085182563225],[-8.289614032554978,118.04985329559362]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_OpenStreetMap_0');
+        map.getPane('pane_OpenStreetMap_0').style.zIndex = 400;
+        var layer_OpenStreetMap_0 = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            pane: 'pane_OpenStreetMap_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 5,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_OpenStreetMap_0;
+        map.addLayer(layer_OpenStreetMap_0);
+        function pop_ProvinsiNTB_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">KAB_KOTA</th>\
+                        <td>' + (feature.properties['KAB_KOTA'] !== null ? autolinker.link(feature.properties['KAB_KOTA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_ProvinsiNTB_1_0() {
+            return {
+                pane: 'pane_ProvinsiNTB_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,249,213,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_ProvinsiNTB_1');
+        map.getPane('pane_ProvinsiNTB_1').style.zIndex = 401;
+        map.getPane('pane_ProvinsiNTB_1').style['mix-blend-mode'] = 'normal';
+        var layer_ProvinsiNTB_1 = new L.geoJson(json_ProvinsiNTB_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_ProvinsiNTB_1',
+            layerName: 'layer_ProvinsiNTB_1',
+            pane: 'pane_ProvinsiNTB_1',
+            onEachFeature: pop_ProvinsiNTB_1,
+            style: style_ProvinsiNTB_1_0,
+        });
+        bounds_group.addLayer(layer_ProvinsiNTB_1);
+        map.addLayer(layer_ProvinsiNTB_1);
+        function pop_PenggunaanLahanKabSumbawaBarat_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Jenis_PL</th>\
+                        <td>' + (feature.properties['Jenis_PL'] !== null ? autolinker.link(feature.properties['Jenis_PL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Prov</th>\
+                        <td>' + (feature.properties['Prov'] !== null ? autolinker.link(feature.properties['Prov'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Kab/Kota</th>\
+                        <td>' + (feature.properties['Kab/Kota'] !== null ? autolinker.link(feature.properties['Kab/Kota'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Manfaat</th>\
+                        <td>' + (feature.properties['Manfaat'] !== null ? autolinker.link(feature.properties['Manfaat'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Luas (m2)</th>\
+                        <td>' + (feature.properties['Luas (m2)'] !== null ? autolinker.link(feature.properties['Luas (m2)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_PenggunaanLahanKabSumbawaBarat_2_0(feature) {
+            switch(String(feature.properties['Manfaat'])) {
+                case 'Kehutanan':
+                    return {
+                pane: 'pane_PenggunaanLahanKabSumbawaBarat_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(152,170,50,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Permukiman':
+                    return {
+                pane: 'pane_PenggunaanLahanKabSumbawaBarat_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(242,88,36,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Pertanian':
+                    return {
+                pane: 'pane_PenggunaanLahanKabSumbawaBarat_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(171,221,164,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Perkebunan':
+                    return {
+                pane: 'pane_PenggunaanLahanKabSumbawaBarat_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(201,101,255,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Pariwisata':
+                    return {
+                pane: 'pane_PenggunaanLahanKabSumbawaBarat_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(236,222,93,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Perikanan':
+                    return {
+                pane: 'pane_PenggunaanLahanKabSumbawaBarat_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(62,78,215,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Pertanian Garam':
+                    return {
+                pane: 'pane_PenggunaanLahanKabSumbawaBarat_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(219,110,175,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_PenggunaanLahanKabSumbawaBarat_2');
+        map.getPane('pane_PenggunaanLahanKabSumbawaBarat_2').style.zIndex = 402;
+        map.getPane('pane_PenggunaanLahanKabSumbawaBarat_2').style['mix-blend-mode'] = 'normal';
+        var layer_PenggunaanLahanKabSumbawaBarat_2 = new L.geoJson(json_PenggunaanLahanKabSumbawaBarat_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PenggunaanLahanKabSumbawaBarat_2',
+            layerName: 'layer_PenggunaanLahanKabSumbawaBarat_2',
+            pane: 'pane_PenggunaanLahanKabSumbawaBarat_2',
+            onEachFeature: pop_PenggunaanLahanKabSumbawaBarat_2,
+            style: style_PenggunaanLahanKabSumbawaBarat_2_0,
+        });
+        bounds_group.addLayer(layer_PenggunaanLahanKabSumbawaBarat_2);
+        map.addLayer(layer_PenggunaanLahanKabSumbawaBarat_2);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'Penggunaan Lahan Kab. Sumbawa Barat<br /><table><tr><td style="text-align: center;"><img src="legend/PenggunaanLahanKabSumbawaBarat_2_Kehutanan0.png" /></td><td>Kehutanan</td></tr><tr><td style="text-align: center;"><img src="legend/PenggunaanLahanKabSumbawaBarat_2_Permukiman1.png" /></td><td>Permukiman</td></tr><tr><td style="text-align: center;"><img src="legend/PenggunaanLahanKabSumbawaBarat_2_Pertanian2.png" /></td><td>Pertanian</td></tr><tr><td style="text-align: center;"><img src="legend/PenggunaanLahanKabSumbawaBarat_2_Perkebunan3.png" /></td><td>Perkebunan</td></tr><tr><td style="text-align: center;"><img src="legend/PenggunaanLahanKabSumbawaBarat_2_Pariwisata4.png" /></td><td>Pariwisata</td></tr><tr><td style="text-align: center;"><img src="legend/PenggunaanLahanKabSumbawaBarat_2_Perikanan5.png" /></td><td>Perikanan</td></tr><tr><td style="text-align: center;"><img src="legend/PenggunaanLahanKabSumbawaBarat_2_PertanianGaram6.png" /></td><td>Pertanian Garam</td></tr></table>': layer_PenggunaanLahanKabSumbawaBarat_2,'<img src="legend/ProvinsiNTB_1.png" /> Provinsi NTB': layer_ProvinsiNTB_1,"OpenStreetMap": layer_OpenStreetMap_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        map.addControl(new L.Control.Search({
+            layer: layer_PenggunaanLahanKabSumbawaBarat_2,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'Manfaat'}));
+        document.getElementsByClassName('search-button')[0].className +=
+         ' fa fa-binoculars';
+        </script>
+
+        <h1 style="Text-align:center;"><B>Nusa Tenggara Barat</B></h1>
+        <p style="text-align: justify;">Nusa Tenggara Barat (disingkat NTB) ialah sebuah provinsi di Indonesia yang berada di bagian tengah Kepulauan Nusa Tenggara di antara provinsi Bali di sebelah barat dan provinsi Nusa Tenggara Timur di sebelah Timur. Ibu kota provinsi ini berada di kota Mataram. Nusa Tenggara Barat memiliki 8 Kabupaten dan 2 Kota, termasuk kota Mataram. Pada tahun 2020, penduduk Nusa Tenggara Barat berjumlah 5.320.092 jiwa, dengan kepadatan 264 jiwa/km2.
+        <br>Nusa Tenggara Barat terdiri dari Pulau Lombok dan Pulau Sumbawa, memiliki luas wilayah 20.153,15 km2. Terletak antara 115° 46'–119° 5' Bujur Timur dan 8° 10'–9 °g 5' Lintang Selatan. Selong merupakan kota yang mempunyai ketinggian paling tinggi, yaitu 148 m dari permukaan laut, sementara Raba terendah dengan 13 m dari permukaan laut. Dari tujuh gunung yang ada di Pulau Lombok, Gunung Rinjani merupakan gunung tertinggi dengan ketinggian 3.775 m, sedangkan Gunung Tambora merupakan gunung tertinggi di Sumbawa dengan ketinggian 2.851 m. Sungai-sungai di Nusa Tenggara Barat dikelompokkan ke dalam dua wilayah sungai, yaitu Wilayah Sungai (WS) yaitu WS Lombok dan WS Sumbawa.[8] WS Lombok terdiri atas 197 DAS dan WS Sumbawa 555 DAS.
+         Lalu, mata pencaharian bagi masyarakat Nusa Tenggara Barat sangat dipengaruhi kondisi geografis tentunya. Salah satunya adalah kabupaten Sumbawa Barat.
+        </p>
+        
+        <h2 style="Text-align:left;">Kabupaten Sumbawa Barat</h2>
+        <p style="text-align:justify;">Kabupaten Sumbawa Barat, adalah sebuah kabupaten di provinsi Nusa Tenggara Barat, Indonesia. Kabupaten terletak di bagian barat Pulau Sumbawa, berbatasan dengan Laut Flores di utara, Kabupaten Sumbawa di timur, Samudra Hindia di selatan serta Selat Alas di barat. Sumbawa Barat merupakan kabupaten hasil pemekaran dari Kabupaten Sumbawa pada tanggal 18 Desember 2003 berdasarkan Undang-undang Nomor 30 Tahun 2003 tentang Pembentukan Kabupaten Sumbawa Barat di Provinsi Nusa Tenggara Barat. jumlah penduduk Kabupaten Sumbawa Barat pada Tahun 2020 mencapai 148.606 jiwa dengan administrasi pemerintahan yang meliputi 8 (delapan) kecamatan.</p>
+        
+        <h2 style="Text-align:left;">Geografis</h2>
+        <p style="text-align:justify;">Kabupaten Sumbawa Barat merupakan salah satu kabupaten di wilayah Provinsi Nusa Tenggara Barat. Secara geografis, kabupaten ini terletak di antara 116°42' BT – 117°05' BT dan 08°08' LS – 09°07' LS. Kabupaten Sumbawa Barat memiliki luas wilayah sebesar 1.849,02 km² dengan kecamatan terluas adalah Kecamatan Taliwang dengan luas wilayah 375,93 km² dan kecamatan terkecil adalah Kecamatan Maluk dengan luas wilayah 92,42 km²</p>
+        
+        <h2 style="Text-align:left;">Mata Pencaharian</h2>
+        <p style="text-align:justify;">Sektor pertanian merupakan sektor yang memberikan kontribusi besar dalam pencapaian peningkatan laju perekonomian Kabupaten Sumbawa, hal ini disebabkan sektor pertanian secara umum merupakan mata pencaharian penduduk Kabupaten Sumbawa, disamping sembilan sektor lain diantaranya hotel, dan restoran, bangunan, perikanan dan sebagainya.
+            <br>Kontribusi sektor pertanian dalam pencapaian pertumbuhan laju perekonomian di SUmbawa, pada tahun 2006 lalu menurut Kepala Badan Pusat Statistik Kabupaten Sumbawa, Zaenuddin, S.Pd, mengatakan bahwa sektor pertanian mempengaruhi laju pertumbuhan perekonomian, jika sektor ini mengalami permasalahan seperti gagal panen maka tingkat pendapatan penduduk juga turu, demikian pula sebaliknya.
+             "Jika capaian di sektor pertanian baik, maka angka pencapaian ekonomi tinggi," ungkap Zaenuddin.
+             Menurut data yang ada di BPS, sektor pertanian memberikan persentase senilai 43,51 persen, menyusul sektor hotel dan restoran/rumah makan dengan persentase 17,83 persendan sektor lainnya hanya memberikan kontribusi di bawah 10 persen.
+             <br>Laju pertumbuhan ekonomi Kabupaten Sumbawa di tahun 2006 lalu menurut Zaenuddin, mencapai 4,68 persen dibanding dengan tahun 2005 hanya mencapai 4, 68 persen.
+             Sementara PDRB atau harga berlaku senilai Rp. 5.850.133.000, pada tahun 2005 senilai Rp. 5.372.034.075 dan harga konstan di tahun 2006 Rp. 3. 728.826.000, di tahun sebelumnya hanya Rp. 3.654.859.084. "INi semua terjadi karena pertumbuhan penduduk, semakin bertambah penduduk meningkat capiannya," kata Zaenuddin. </p>
+        <div class="clear"></div>
+        
+        <div class="footer">
+        <p style="background-color:#333333;color:white; text-align:center;"><br>UTS SIG berbasis WEB | TSPD 2020<br><br></P>
+        </div>
+    </body>
+</html>
